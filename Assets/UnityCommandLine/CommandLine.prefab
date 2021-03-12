@@ -390,7 +390,7 @@ GameObject:
   - component: {fileID: 7244717320326392047}
   - component: {fileID: 7244717320326392046}
   m_Layer: 5
-  m_Name: CommandLineContainer
+  m_Name: CommandLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -428,7 +428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef6d777d12659554aaba373251aba2f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showHideKey: 49
+  showHideKeys: 71000000
   inputContainer: {fileID: 7244717320082012127}
   inputField: {fileID: 7244717320082012113}
   response: {fileID: 7244717319340333929}

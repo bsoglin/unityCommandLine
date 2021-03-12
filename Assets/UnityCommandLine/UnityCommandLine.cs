@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UnityCommandLine : MonoBehaviour
 {
-    public KeyCode showHideKey;
+    public List<KeyCode> showHideKeys;
 
     public GameObject inputContainer;
     public TMPro.TMP_InputField inputField;
@@ -39,7 +39,7 @@ public class UnityCommandLine : MonoBehaviour
         }
 
         // hide console
-        if (Input.GetKeyDown(showHideKey)) {
+        if (SequencePressed()) {
             ShowOrHide(!hidden);
         }
     }
@@ -52,7 +52,9 @@ public class UnityCommandLine : MonoBehaviour
             inputField.SetTextWithoutNotify("");
         } else {
             inputField.SetTextWithoutNotify(history[historyIndex]);
+            inputField.caretPosition = inputField.text.Length;
         }
+
     }
 
     public void OnSubmit(string input) {
@@ -88,5 +90,29 @@ public class UnityCommandLine : MonoBehaviour
         if (val) {
             inputField.ActivateInputField();
         }
+    }
+
+    public bool SequencePressed() {
+        // this is n^2 -- it checks for the key being pressed down, and then for every other key being pressed
+        foreach(KeyCode pressedKey in showHideKeys) {
+
+            if (Input.GetKeyDown(pressedKey)) {
+
+                bool allOtherKeysDown = true;
+
+                foreach (KeyCode key in showHideKeys) {
+                    if (!Input.GetKey(key)) {
+                        allOtherKeysDown = false;
+                        break;
+                    }
+                }
+
+                if (allOtherKeysDown) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }
