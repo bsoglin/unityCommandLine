@@ -12,35 +12,37 @@ public class UnityCommandLine : MonoBehaviour
     public GameObject receiver;
 
     public bool startHidden = false;
-    bool hidden;
+    bool revealed;
 
     List<string> history = new List<string>();
     int historyIndex = -1;
 
     private void Awake() {
         response.text = "";
-        ShowOrHide(!startHidden);
+        Reveal(!startHidden);
     }
 
     private void Update() {
 
-        // submit text
-        if (Input.GetKeyDown(KeyCode.Return)) {
-            OnSubmit(inputField.text);
-        }
+        if (revealed) {
+            // submit text
+            if (Input.GetKeyDown(KeyCode.Return)) {
+                OnSubmit(inputField.text);
+            }
 
-        // gow up or down thru history
-        if (Input.GetKeyDown(KeyCode.UpArrow)) {
-            HandleHistoryChange(1);
-        }
+            // gow up or down thru history
+            if (Input.GetKeyDown(KeyCode.UpArrow)) {
+                HandleHistoryChange(1);
+            }
 
-        if (Input.GetKeyDown(KeyCode.DownArrow)) {
-            HandleHistoryChange(-1);
+            if (Input.GetKeyDown(KeyCode.DownArrow)) {
+                HandleHistoryChange(-1);
+            }
         }
 
         // hide console
         if (SequencePressed()) {
-            ShowOrHide(!hidden);
+            Reveal(!revealed);
         }
     }
 
@@ -59,7 +61,6 @@ public class UnityCommandLine : MonoBehaviour
 
     public void OnSubmit(string input) {
         response.text = "Could not parse command.";
-
 
         // handle the respond coming in and send it to the receiver
         string[] inputSplit = input.Split(' ');
@@ -83,9 +84,10 @@ public class UnityCommandLine : MonoBehaviour
         inputField.ActivateInputField();
     }
 
-    void ShowOrHide(bool val) {
+    void Reveal(bool val) {
+
         inputContainer.SetActive(val);
-        hidden = val;
+        revealed = val;
 
         if (val) {
             inputField.ActivateInputField();
